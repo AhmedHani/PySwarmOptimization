@@ -19,6 +19,11 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
     __best_position = []
 
     def __init__(self, number_of_objects, number_of_dimensions):
+        """
+
+        :param number_of_objects: an integer which determines the number of the bats in the space
+        :param number_of_dimensions: an inter which determines the number of the space dimensions
+        """
         super(BatAlgorithm, self).__init__(number_of_objects, number_of_dimensions)
 
         self.__init()
@@ -41,6 +46,12 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
         self.__bats_loudness = [rnd.random() * self.__max_loudness for i in range(self._number_of_objects)]
 
     def optimize(self, target_error, number_of_iterations):
+        """
+        The run of the algorithm to optimize a pre-specified function
+        :param target_error: a float which determines the target error we want to reach when using the cost function
+        :param number_of_iterations: an integer which is the number of epochs in which each bat will try to find the solution
+        :return: a list which contains the best solution for the function
+        """
         iteration = 0
         bats_pulse_rate = self.__initial_bats_pulse_rate
         self.__best_position = self.get_best_features()
@@ -81,12 +92,23 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
         return self.__best_position
 
     def cost_function(self, features):
+        """
+        The function we want to optimize
+        [TODO] Generalize to make the function as an input from the user
+        :param features: a list which is the solution of the function
+        :return: a float which is the squared error of the current solution
+        """
         result = 1 + features[0]**2 + features[1]**2
         true_theta = 1.0
 
         return (result - true_theta) ** 2
 
     def get_best_features(self):
+        """
+        Get the best solution among all bats
+
+        :return: a list which is the best solution found among the bats
+        """
         min_value_bat_id = -1
         min_value = self.cost_function(self.__bats_list[0].position)
 
@@ -105,11 +127,19 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
         self.__update_position()
 
     def __update_frequency(self):
+        """
+        Update the pulse frequency
+
+        """
         for i in range(self._number_of_objects):
             value = self.__min_frequency + rnd.random() * (self.__max_frequency - self.__min_frequency)
             self.__bats_pulse_frequency[i] = value
 
     def __update_velocity(self):
+        """
+        Update the bats velocity
+
+        """
         for i in range(self._number_of_objects):
             new_velocity = [0.0 for i in range(self._number_of_objects)]
             for j in range(self._number_of_dimensions):
@@ -119,6 +149,10 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
             self.__bats_list[i].velocity = new_velocity
 
     def __update_position(self):
+        """
+        Update the bats positions based on the velocity
+
+        """
         for i in range(self._number_of_objects):
             new_position = [0.0 for i in range(self._number_of_objects)]
             for j in range(self._number_of_dimensions):

@@ -9,6 +9,9 @@ class Bat(object):
     best_position = []
 
     def print_bat_data(self):
+        """
+        print the bat data
+        """
         print("Bat number: ", self.id)
         print("Bat current position", self.position)
         print("Bat current velocity", self.velocity)
