@@ -3,6 +3,7 @@ from swarm import algorithm
 from bat_algorithm_package.bat import Bat
 import random as rnd
 import math
+import numpy as np
 
 
 class BatAlgorithm(algorithm.SwarmAlgorithm):
@@ -36,7 +37,8 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
             rnd.random() * ((self.__max_frequency - self.__min_frequency) + self.__min_frequency) for i in
             range(self._number_of_objects)]
 
-        self.__initial_bats_pulse_rate = [rnd.random() * self.__max_loudness for i in range(self._number_of_objects)]
+        self.__initial_bats_pulse_rate = [rnd.random() for i in range(self._number_of_objects)]
+        self.__bats_loudness = [rnd.random() * self.__max_loudness for i in range(self._number_of_objects)]
 
     def optimize(self, target_error, number_of_iterations):
         iteration = 0
@@ -45,12 +47,42 @@ class BatAlgorithm(algorithm.SwarmAlgorithm):
         error = abs(self.cost_function(self.__best_position))
 
         while error > target_error and iteration < number_of_iterations:
+            print(iteration)
             self.__update_bats()
+            average_loudness = np.mean(self.__bats_loudness)
 
+            for i in range(self._number_of_objects):
+                if rnd.random() > bats_pulse_rate[i]:
+                    random = (rnd.random() * 2) - 1
+                    new_positions = [0.0 for i in range(self._number_of_dimensions)]
+                    for j in range(self._number_of_dimensions):
+                        new_positions[j] = self.__best_position[j] + (random * average_loudness)
+                    self.__bats_list[i].new_position = new_positions
+
+                added_value = []
+
+                for j in range(self._number_of_dimensions):
+                    added_value.append(self.__bats_list[i].new_position[j] + rnd.random())
+
+                self.__bats_list[i].new_position = added_value
+
+                if rnd.random() * self.__max_loudness < self.__bats_loudness[i] and self.cost_function(
+                        self.__bats_list[i].new_position) <= self.cost_function(self.__bats_list[i].position):
+                    self.__bats_list[i].position = self.__bats_list[i].new_position
+                    self.__bats_loudness[i] = self.__update_loudness(self.__bats_loudness[i])
+                    bats_pulse_rate[i] = self.__update_pulse_rate(self.__initial_bats_pulse_rate[i], iteration)
+
+                if self.cost_function(self.__bats_list[i].new_position) < self.cost_function(self.__best_position):
+                    self.__best_position = self.__bats_list[i].new_position
+
+            error = abs(self.cost_function(self.__best_position))
+            iteration += 1
+
+        return self.__best_position
 
     def cost_function(self, features):
-        result = 2.0 + features[0] + features[1]
-        true_theta = 2.0
+        result = 1 + features[0]**2 + features[1]**2
+        true_theta = 1.0
 
         return (result - true_theta) ** 2
 
