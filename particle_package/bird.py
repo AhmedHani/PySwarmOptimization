@@ -16,13 +16,13 @@ index = 'A'
 class Bird():
     position = []
     velocity = []
-    bestPosition = []
-    currentFitness = float
-    bestFitness = float
+    best_position = []
+    current_fitness = float
+    best_fitness = float
     x, y = [], []
 
     def __repr__(self):
-        return repr((self.position, self.velocity, self.bestPosition, self.currentFitness))
+        return repr((self.position, self.velocity, self.best_position, self.current_fitness))
 
 
     def printOutput(self):
