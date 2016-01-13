@@ -1,7 +1,7 @@
 # PySwarmOptimization
 A Python package that implements some of swarm optimization algorithms that are added up together in one package to be used as an API for other projects.
 
-# Algorithms (continuously updating)
+## Algorithms (continuously updating)
 * [Bat Algorithm] (https://en.wikipedia.org/wiki/Bat_algorithm)
 * [Particle Swarm Optimization] (https://en.wikipedia.org/wiki/Particle_swarm_optimization)
 * [Amoeba Method] (https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method)
@@ -13,7 +13,7 @@ A Python package that implements some of swarm optimization algorithms that are 
 
 
 
-# Installation
+## Installation
 * git clone https://github.com/AhmedHani/PySwarmOptimization.git
 * cd to the project directory
 * Type ``` python setup.py install ```
